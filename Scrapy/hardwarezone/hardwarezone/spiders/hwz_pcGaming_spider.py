@@ -1,5 +1,7 @@
 import scrapy
+import logging
 
+logger = logging.getLogger('hwz_logger')
 class HWZSpider(scrapy.Spider):
     name = 'hardwarezone'
     
@@ -10,14 +12,11 @@ class HWZSpider(scrapy.Spider):
     def parse(self, response):
         for topic_list in response.xpath('//div[has-class("structItemContainer-group js-threadList")]'):
             for topic in topic_list.xpath('div[has-class("structItem structItem--thread js-inlineModContainer")]'):
-                # yield {
-                #     'topic': topic.xpath('div/div[has-class("structItem-title")]/a/text()').get(),
-                # }
+                topic_page = topic.xpath('div/div[has-class("structItem-title")]/a/@href').get()
+                logger.info(topic_page)
+                print(topic_page)
                 
-                yield response.follow(
-                    topic.xpath('div/div[has-class("structItem-title")]/a/@href').get(),
-                    self.parse
-                )
+                yield response.follow( topic_page )
                 
         for post in response.xpath('//div[has-class("block-container lbContainer")]/div'):
             yield {
@@ -25,7 +24,9 @@ class HWZSpider(scrapy.Spider):
                 'author': post.xpath('article/div/div/section/div/h4/a/text()').get(),
                 'content': post.xpath('article/div/div[has-class("message-cell--main")]/div/div/div/article/div/descendant::text()').extract(),
             }
-            
-        next_page = response.xpath('//nav[@class="pageNavWrapper"]/div/a/@href').get()
+        
+        next_page = response.xpath('//a[has-class("pageNav-jump", "pageNav-jump--next")]/@href').get()
         if next_page is not None:
-            yield response.follow(next_page, self.parse)
+            logger.info(next_page)
+            yield response.follow(next_page)
+            
