@@ -65,6 +65,8 @@ ROBOTSTXT_OBEY = True
 ITEM_PIPELINES = {
    'hardwarezone.pipelines.HardwarezonePipeline': 300,
    'hardwarezone.pipelines.RemoveWhiteSpacePipeline': 400,
+   'hardwarezone.pipelines.RemoveJSONPipeline': 410,
+   'hardwarezone.pipelines.CombineIntoStringPipeline': 420,
    'hardwarezone.pipelines.MongoDbPipeline': 500
 }
 

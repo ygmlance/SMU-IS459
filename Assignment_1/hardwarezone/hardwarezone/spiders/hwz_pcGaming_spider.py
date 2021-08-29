@@ -14,15 +14,13 @@ class HWZSpider(scrapy.Spider):
     ]
     
     def parse(self, response):
-        logger.debug(f"Existing settings: {self.settings.attributes.keys()}")
         
         for topic_list in response.xpath('//div[has-class("structItemContainer-group js-threadList")]'):
             for topic in topic_list.xpath('div[has-class("structItem structItem--thread js-inlineModContainer")]'):
                 topic_page = topic.xpath('div/div[has-class("structItem-title")]/a/@href').get()
                 logger.info(topic_page)
-                print(topic_page)
                 
-                yield response.follow( topic_page )
+                yield response.follow(topic_page)
                 
         for post in response.xpath('//div[has-class("block-container lbContainer")]/div'):
             yield {
