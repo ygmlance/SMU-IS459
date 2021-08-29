@@ -65,7 +65,12 @@ ROBOTSTXT_OBEY = True
 ITEM_PIPELINES = {
    'hardwarezone.pipelines.HardwarezonePipeline': 300,
    'hardwarezone.pipelines.RemoveWhiteSpacePipeline': 400,
+   'hardwarezone.pipelines.MongoDbPipeline': 500
 }
+
+MONGODB_SERVER = "localhost"
+MONGODB_PORT = 27017
+MONGODB_DB = "hardwarezone"
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
