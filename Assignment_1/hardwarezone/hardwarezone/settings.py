@@ -67,7 +67,7 @@ ITEM_PIPELINES = {
    'hardwarezone.pipelines.RemoveWhiteSpacePipeline': 400,
    'hardwarezone.pipelines.RemoveJSONPipeline': 410,
    'hardwarezone.pipelines.CombineIntoStringPipeline': 420,
-   'hardwarezone.pipelines.MongoDbPipeline': 500
+   'hardwarezone.pipelines.MongoDbPipeline': 600
 }
 
 MONGODB_SERVER = "localhost"

@@ -6,6 +6,7 @@
 
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
+from scrapy.exceptions import DropItem
 import pymongo
 
 
@@ -58,6 +59,19 @@ class CombineIntoStringPipeline:
         
         return item
 
+
+class DataValidationPipeline:
+    def process_item(self, item, spider):
+        valid = True
+        
+        for data in item:
+            if not data:
+                valid = False
+                raise DropItem("Missing {0}!".format(data))
+        
+        if valid:
+            return item
+        
 
 class MongoDbPipeline:
     def __init__(self, mongo_uri, mongo_db, mongo_collection):
